@@ -15,7 +15,7 @@ Arguments:
 Options:
   -s, --season <SEASON>                      A season number for the title
   -e, --starting-episode <STARTING_EPISODE>  The starting number for episode numbering [default: 1]
-  -f, --file <FILE>                          Optional file containing the links on separate lines
+  -f, --file <FILE>                          A file containing the links on separate lines
   -h, --help                                 Print help
   -V, --version                              Print version
 ```
