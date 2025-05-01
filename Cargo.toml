@@ -1,5 +1,5 @@
 [package]
-name = "movie_downloader"
+name = "series_downloader"
 version = "0.1.0"
 edition = "2024"
 
