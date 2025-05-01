@@ -23,7 +23,7 @@ struct Cli {
     /// The starting number for episode numbering
     #[arg(short='e', long, default_value_t=1)]
     starting_episode: usize,
-    /// Optional file containing the links on separate lines
+    /// A file containing the links on separate lines
     #[arg(short, long)]
     file: Option<PathBuf>
     // Optional name to operate on
