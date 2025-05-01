@@ -5,11 +5,6 @@ use std::path::PathBuf;
 use std::process::{exit, Command};
 use clap::{Parser};
 
-#[cfg(windows)]
-const LINE_ENDING: &'static str = "\r\n";
-#[cfg(not(windows))]
-const LINE_ENDING: &'static str = "\n";
-
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
 struct Cli {
@@ -54,7 +49,7 @@ fn main() {
             if cli.save_links.unwrap_or(false) {
                 match File::create(format!("{}-links.txt", cli.series_name)) {
                     Ok(mut file) => {
-                        match file.write_all(episodes.join(LINE_ENDING).as_ref()) {
+                        match file.write_all(episodes.join("").as_ref()) {
                             Ok(_) => println!("Successfully saved links to file."),
                             Err(_) => println!("Could not create link file.")
                         };
