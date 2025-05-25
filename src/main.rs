@@ -77,9 +77,9 @@ fn main() {
         let title: String;
 
         if cli.season.is_some() {
-            title = format!("{} ~ {}-{}.mp4", cli.series_name, cli.season.unwrap_or(1), index + cli.starting_episode);
+            title = format!("{} S{:0>2}E{:0>2}.mp4", cli.series_name, cli.season.unwrap_or(1), index + cli.starting_episode);
         } else {
-            title = format!("{} ~ {}.mp4", cli.series_name, index + cli.starting_episode);
+            title = format!("{} E{:0>2}.mp4", cli.series_name, index + cli.starting_episode);
         }
 
         // yt-dlp -S "ext" -N 25 -o "<title>.mp4" <link>
