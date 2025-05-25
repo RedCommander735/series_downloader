@@ -51,10 +51,10 @@ fn main() {
                     Ok(mut file) => {
                         match file.write_all(episodes.join("").as_ref()) {
                             Ok(_) => println!("Successfully saved links to file."),
-                            Err(_) => println!("Could not create link file.")
+                            Err(_) => println!("Could not create links file.")
                         };
                     }
-                    Err(_) => println!("Could not create link file.")
+                    Err(_) => println!("Could not create links file.")
                 };
             }
         }
@@ -84,8 +84,29 @@ fn main() {
 
         // yt-dlp -S "ext" -N 25 -o "<title>.mp4" <link>
         let mut child = Command::new("yt-dlp").args(["-S", "ext", "-N", "50", "-o", &*title, "-q", "--progress", "--no-warnings", episode]).spawn().unwrap();
-        let _ = child.wait();
-        println!("Successfully downloaded \'{}\'", title)
+        let result = child.wait();
+        match result {
+            Ok(exit_status) => if exit_status.success() {
+                println!("Successfully downloaded \'{}\'", title);
+
+                if cli.save_links.unwrap_or(false) {
+                    match File::open(format!("{}-links.txt", cli.series_name)) {
+                        Ok(mut file) => {
+                            match file.write_all(episodes.join("").as_ref()) {
+                                Ok(_) => println!("Successfully updated links file."),
+                                Err(_) => println!("Could not update links file.")
+                            };
+                        }
+                        Err(_) => println!("Could not update links file.")
+                    };
+                }
+
+            } else {
+                eprintln!("An error occured while downloading \'{}\'. Exit code {}", title, exit_status.to_string())
+            },
+            Err(_) => eprintln!("An error occured while downloading \'{}\'", title),
+        }
+        
     }
 
     println!("Done!")
