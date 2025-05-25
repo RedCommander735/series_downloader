@@ -19,3 +19,6 @@ Options:
   -h, --help                                 Print help
   -V, --version                              Print version
 ```
+
+# TODO
+- Update links file if in file mode (only remove successful downloads)
