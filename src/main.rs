@@ -89,17 +89,17 @@ fn main() {
             Ok(exit_status) => if exit_status.success() {
                 println!("Successfully downloaded \'{}\'", title);
 
-                if cli.save_links.unwrap_or(false) {
-                    match File::open(format!("{}-links.txt", cli.series_name)) {
-                        Ok(mut file) => {
-                            match file.write_all(episodes.join("").as_ref()) {
-                                Ok(_) => println!("Successfully updated links file."),
-                                Err(_) => println!("Could not update links file.")
-                            };
-                        }
-                        Err(_) => println!("Could not update links file.")
-                    };
-                }
+                // if cli.save_links.unwrap_or(false) {
+                //     match File::open(format!("{}-links.txt", cli.series_name)) {
+                //         Ok(mut file) => {
+                //             match file.write_all(episodes.join("").as_ref()) {
+                //                 Ok(_) => println!("Successfully updated links file."),
+                //                 Err(_) => println!("Could not update links file.")
+                //             };
+                //         }
+                //         Err(_) => println!("Could not update links file.")
+                //     };
+                // }
 
             } else {
                 eprintln!("An error occured while downloading \'{}\'. Exit code {}", title, exit_status.to_string())
