@@ -20,5 +20,4 @@ Options:
   -V, --version                              Print version
 ```
 
-# TODO
-- Update links file if in file mode (only remove successful downloads)
+TODO: change link file format to preserver episode number for link
