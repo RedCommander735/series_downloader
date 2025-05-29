@@ -19,5 +19,3 @@ Options:
   -h, --help                                 Print help
   -V, --version                              Print version
 ```
-
-TODO: change link file format to preserver episode number for link

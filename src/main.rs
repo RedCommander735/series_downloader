@@ -4,7 +4,6 @@ use std::io;
 use std::io::Write;
 use std::path::PathBuf;
 use std::process::{Command, exit};
-use std::slice::Join;
 
 #[derive(Parser)]
 #[command(version, about, long_about = None)]
@@ -61,7 +60,7 @@ fn main() {
             }
 
             if file_mode {
-                link_saver(&cli.series_name, episodes, false);
+                link_saver(&cli.series_name, &episodes, false);
             }
         }
         Some(path) => {
@@ -85,6 +84,10 @@ fn main() {
 
     for (index, episode) in episodes.clone().iter().enumerate() {
         let title: String;
+
+        if episode.link.trim().is_empty() {
+            continue;
+        }
 
         if cli.season.is_some() {
             title = format!(
@@ -124,9 +127,10 @@ fn main() {
             Ok(exit_status) => {
                 if exit_status.success() {
                     println!("Successfully downloaded \'{}\'", title);
-                    episodes.get(index).unwrap().success = true;
-                    link_saver(&cli.series_name, episodes, true);
-
+                    episodes[index].success = true;
+                    if file_mode {
+                        link_saver(&cli.series_name, &episodes, true);
+                    }
                 } else {
                     eprintln!(
                         "An error occured while downloading \'{}\'. Exit code {}",
@@ -142,14 +146,13 @@ fn main() {
     println!("Done!")
 }
 
-fn link_saver(series_name: &str, episodes: Vec<Link>, update: bool) {
+fn link_saver(series_name: &str, episodes: &Vec<Link>, update: bool) {
     match File::create(format!("{}-links.txt", series_name)) {
         Ok(mut file) => {
             match file.write_all(
                 episodes
                     .iter()
-                    .filter(|link| !link.success)
-                    .fold("".to_string(), |acc, x| acc + &x.link)
+                    .fold("".to_string(), |acc, x| if x.success { acc + "\n" } else { acc + &x.link } )
                     .as_ref(),
             ) {
                 Ok(_) => if update { println!("Successfully updated links file.") } else { println!("Successfully saved links to file.") },
